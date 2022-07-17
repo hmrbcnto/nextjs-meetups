@@ -1,23 +1,17 @@
 import React, { FunctionComponent } from 'react';
 
+import { MeetupInterface } from '../../types/meetup';
 import classes from './MeetupList.module.css';
 import MeetupItem from './MeetupItem';
 
-interface Meetup {
-	id: string,
-	image: string,
-	title: string,
-	address: string
-}
-
 interface MeetupListProps {
-	meetup: Meetup[]
+	meetups: MeetupInterface[]
 }
 
 const MeetupList: FunctionComponent<MeetupListProps> = (props: MeetupListProps) => {
 	return (
 		<ul className={classes.list}>
-			{props.meetup.map(meetup => (
+			{props.meetups.map(meetup => (
 				<MeetupItem
 					key={meetup.id}
 					id={meetup.id}

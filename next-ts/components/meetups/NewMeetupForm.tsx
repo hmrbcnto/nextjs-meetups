@@ -3,13 +3,7 @@ import { useRef } from 'react';
 
 import Card from '../ui/Card';
 import classes from './NewMeetupForm.module.css';
-
-interface MeetupData {
-	title: string,
-	image: string,
-	address: string,
-	description: string
-}
+import { MeetupData } from '../../types/meetup';
 
 interface NewMeetupFormProps {
 	onAddMeetup(meetup: MeetupData): void;
