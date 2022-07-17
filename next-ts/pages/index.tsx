@@ -1,9 +1,11 @@
 import React, { FunctionComponent } from 'react';
+import MeetupList from '../components/meetups/MeetupList';
+import Layout from '../components/layout/Layout';
 
 const HomePage: FunctionComponent = () => {
 	return(
 		<>
-			<h1>Home Page</h1>
+			<Layout />
 		</>
 	)
 }

@@ -4,7 +4,7 @@ import MainNavigation from './MainNavigation';
 import classes from './Layout.module.css';
 
 interface LayoutProps {
-	children: JSX.Element | JSX.Element[]
+	children?: JSX.Element | JSX.Element[]
 }
 
 const Layout: FunctionComponent<LayoutProps> = (props: LayoutProps) => {
@@ -17,3 +17,5 @@ const Layout: FunctionComponent<LayoutProps> = (props: LayoutProps) => {
 		</div>
 	)
 }
+
+export default Layout;
