@@ -2,9 +2,9 @@ import React, { FunctionComponent } from 'react';
 
 const HomePage: FunctionComponent = () => {
 	return(
-		<div>
-			Home Page
-		</div>
+		<>
+			<h1>Home Page</h1>
+		</>
 	)
 }
 
