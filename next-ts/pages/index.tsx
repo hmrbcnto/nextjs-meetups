@@ -1,6 +1,7 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import MeetupList from '../components/meetups/MeetupList';
 import Layout from '../components/layout/Layout';
+import { MeetupInterface } from '../types/meetup';
 
 const DUMMY_MEETUPS = [
 	{
@@ -27,9 +28,16 @@ const DUMMY_MEETUPS = [
 ]
 
 const HomePage: FunctionComponent = () => {
+	const [loadedMeetups, setLoadedMeetups] = useState<MeetupInterface[]>([]);
+
+	useEffect(() => {
+		setLoadedMeetups(DUMMY_MEETUPS);
+	}, [])
+
+	
 	return(
 		<>
-			<MeetupList meetups={DUMMY_MEETUPS} />
+			<MeetupList meetups={loadedMeetups} />
 		</>
 	)
 }
