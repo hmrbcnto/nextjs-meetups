@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import { useRef } from 'react';
 
 import Card from '../ui/Card';
@@ -10,18 +10,19 @@ interface NewMeetupFormProps {
 }
 
 const NewMeetupForm: FunctionComponent<NewMeetupFormProps> = (props: NewMeetupFormProps) => {
-	const titleInputRef = useRef<HTMLInputElement>();
-	const imageInputRef = useRef<HTMLInputElement>();
-	const addressInputRef = useRef<HTMLInputElement>();
-	const descriptionInputRef = useRef<HTMLTextAreaElement>();
+
+	const titleInputRef = useRef<HTMLInputElement | null>(null);
+	const imageInputRef = useRef<HTMLInputElement | null>(null);
+	const addressInputRef = useRef<HTMLInputElement | null>(null);
+	const descriptionInputRef = useRef<HTMLTextAreaElement>(null);
 
 	const submitEventHandler = () => {
 		event.preventDefault();
 
-		const enteredTitle: string = titleInputRef.current.value;
-		const enteredImage: string = imageInputRef.current.value;
-		const enteredAddress: string = addressInputRef.current.value;
-		const enteredDescription: string = descriptionInputRef.current.value;
+		const enteredTitle = titleInputRef.current.value;
+		const enteredImage = imageInputRef.current.value;
+		const enteredAddress = addressInputRef.current.value;
+		const enteredDescription = descriptionInputRef.current.value;
 
 		const meetup: MeetupData = {
 			title: enteredTitle,
@@ -38,6 +39,7 @@ const NewMeetupForm: FunctionComponent<NewMeetupFormProps> = (props: NewMeetupFo
 			<form className={classes.form} onSubmit={submitEventHandler}>
 				<div className={classes.control}>
 					<label htmlFor='title'> Meetup Title </label>
+					<input type='text' id='title' ref={titleInputRef} />
 				</div>
 				<div className={classes.control}>
           <label htmlFor='image'>Meetup Image</label>
