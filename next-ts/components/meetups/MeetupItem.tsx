@@ -1,4 +1,5 @@
 import React, { FunctionComponent } from 'react';
+import { useRouter } from 'next/router';
 import classes from './MeetupItem.module.css';
 import Card from '../ui/Card';
 
@@ -11,6 +12,13 @@ interface MeetupItemProps {
 }
 
 const MeetupItem: FunctionComponent<MeetupItemProps> = (props: MeetupItemProps) => {
+	const router = useRouter();
+
+	const showDetailsHandler = () => {
+		router.push(`/${props.id}`);
+	}
+
+
 	return (
 		<li className={classes.item}>
 			<Card>
@@ -22,7 +30,7 @@ const MeetupItem: FunctionComponent<MeetupItemProps> = (props: MeetupItemProps) 
 					<address> {props.address} </address>
 				</div>
 				<div className={classes.actions}>
-					<button> Show Detail </button>
+					<button onClick={showDetailsHandler}> Show Detail </button>
 				</div>
 			</Card>
 		</li>
