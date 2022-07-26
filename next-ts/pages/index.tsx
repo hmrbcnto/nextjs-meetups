@@ -1,31 +1,8 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
+import { MongoClient } from 'mongodb';
 import MeetupList from '../components/meetups/MeetupList';
 import Layout from '../components/layout/Layout';
 import { MeetupInterface } from '../types/meetup';
-
-const DUMMY_MEETUPS = [
-	{
-		id: 'm1',
-		title: 'Meetup 1',
-		image: 'https://www.japan-guide.com/g21/2314_02.jpg',
-		address: 'Address 1',
-		description: 'Description 1'
-	},
-	{
-		id: 'm2',
-		title: 'Meetup 2',
-		image: 'https://www.japan-guide.com/g21/2314_02.jpg',
-		address: 'Address 2',
-		description: 'Description 2'
-	},
-	{
-		id: 'm3',
-		title: 'Meetup 3',
-		image: 'https://www.japan-guide.com/g21/2314_02.jpg',
-		address: 'Address 3',
-		description: 'Description 3'
-	}
-]
 
 interface HomePageProps {
 	meetups: MeetupInterface[]
@@ -35,7 +12,7 @@ const HomePage: FunctionComponent<HomePageProps> = (props: HomePageProps) => {
 	const [loadedMeetups, setLoadedMeetups] = useState<MeetupInterface[]>(props.meetups);
 
 	useEffect(() => {
-		setLoadedMeetups(DUMMY_MEETUPS);
+		setLoadedMeetups(loadedMeetups);
 	}, [])
 
 	
@@ -50,9 +27,24 @@ const HomePage: FunctionComponent<HomePageProps> = (props: HomePageProps) => {
 // Executed during build process, never on client 
 // Can also access context.params, which will have the argument keys
 export async function getStaticProps() {
+
+	const client = await MongoClient.connect('mongodb+srv://hmrbcnt:jonasbayot@fullstackopenmongodb.lqee8.mongodb.net/meetups?retryWrites=true&w=majority');
+	const db = client.db();
+
+	const meetupsCollection = db.collection('meetups');
+
+	const meetups = await meetupsCollection.find().toArray();
+
+	client.close();
+	
 	return {
 		props: {
-			meetups: DUMMY_MEETUPS
+			meetups: meetups.map(meetup => ({ 
+				title: meetup.title,
+				address: meetup.address,
+				image: meetup.image,
+				id: meetup._id.toString()
+			}))
 		},
 		revalidate: 10 // # Of seconds nextjs regenerates the page after the build process
 	}

@@ -1,5 +1,6 @@
 export interface MeetupInterface  {
 	id: string,
+	_id?: object,
 	image: string,
 	title: string,
 	address: string,
@@ -19,4 +20,12 @@ export interface CreateMeetupInterface {
 	title: string,
 	address: string,
 	description?: string	
+}
+
+export interface QueryMeetupInterface {
+	_id: object,
+	image: string,
+	title: string,
+	address: string,
+	description?: string
 }
