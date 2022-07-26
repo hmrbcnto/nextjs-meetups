@@ -13,3 +13,10 @@ export interface MeetupData {
 	address: string,
 	description: string
 }
+
+export interface CreateMeetupInterface {
+	image: string,
+	title: string,
+	address: string,
+	description?: string	
+}
