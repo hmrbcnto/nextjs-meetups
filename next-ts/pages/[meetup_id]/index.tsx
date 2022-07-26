@@ -1,4 +1,5 @@
 import { Collection, Db, MongoClient, ObjectId, WithId } from 'mongodb';
+import Head from 'next/head';
 import React, { FunctionComponent, useState } from 'react';
 import MeetupDetailComponent from '../../components/meetups/MeetupDetail';
 import { MeetupInterface, QueryMeetupInterface } from '../../types/meetup';
@@ -6,6 +7,10 @@ import { MeetupInterface, QueryMeetupInterface } from '../../types/meetup';
 const MeetupDetailPage: FunctionComponent<MeetupInterface> = (props: MeetupInterface) => {
 	return (
 		<>
+			<Head>
+				<title> {props.title} </title>
+				<meta name="description" content={props.title}/>
+			</Head>
 			<MeetupDetailComponent 
 				image={props.image}
 				title={props.title}

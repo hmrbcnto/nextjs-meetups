@@ -21,7 +21,7 @@ const HomePage: FunctionComponent<HomePageProps> = (props: HomePageProps) => {
 		<Fragment>
 			<Head>
 				<title> NextJS Meetups </title>
-				<meta name="description"> Browse a list of very active NextJS Meetups! </meta>
+				<meta name="description" content="Browse a list of very active NextJS Meetups!"/>
 			</Head>
 			<MeetupList meetups={loadedMeetups} />
 		</Fragment>
