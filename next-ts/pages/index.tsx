@@ -1,4 +1,5 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import Head from 'next/head';
+import React, { Fragment, FunctionComponent, useEffect, useState } from 'react';
 import { MongoClient } from 'mongodb';
 import MeetupList from '../components/meetups/MeetupList';
 import Layout from '../components/layout/Layout';
@@ -17,9 +18,13 @@ const HomePage: FunctionComponent<HomePageProps> = (props: HomePageProps) => {
 
 	
 	return(
-		<>
+		<Fragment>
+			<Head>
+				<title> NextJS Meetups </title>
+				<meta name="description"> Browse a list of very active NextJS Meetups! </meta>
+			</Head>
 			<MeetupList meetups={loadedMeetups} />
-		</>
+		</Fragment>
 	)
 }
 
