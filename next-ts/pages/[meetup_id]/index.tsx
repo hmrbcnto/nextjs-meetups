@@ -1,16 +1,17 @@
+import { Collection, Db, MongoClient, ObjectId, WithId } from 'mongodb';
 import React, { FunctionComponent, useState } from 'react';
 import MeetupDetailComponent from '../../components/meetups/MeetupDetail';
-import { MeetupInterface } from '../../types/meetup';
+import { MeetupInterface, QueryMeetupInterface } from '../../types/meetup';
 
 const MeetupDetailPage: FunctionComponent<MeetupInterface> = (props: MeetupInterface) => {
 	return (
 		<>
 			<MeetupDetailComponent 
-				image="https://www.japan-guide.com/g21/2314_02.jpg"
-				title="First Meetup"
-				address="address"
-				description="description"
-				id="12345"
+				image={props.image}
+				title={props.title}
+				address={props.address}
+				description={props.description}
+				id={props.id}
 			/>
 		</>
 	)
@@ -19,32 +20,46 @@ const MeetupDetailPage: FunctionComponent<MeetupInterface> = (props: MeetupInter
 export async function getStaticPaths() {
 	// Describe all the dynamic segment values
 	// All meetup ids in this case
+
+	const client: MongoClient = await MongoClient.connect('mongodb+srv://hmrbcnt:jonasbayot@fullstackopenmongodb.lqee8.mongodb.net/meetups?retryWrites=true&w=majority');
+	const db: Db = client.db();
+
+	const meetupsCollection: Collection = db.collection('meetups');
+
+	const meetups: WithId<Object>[] = await meetupsCollection.find({}, { projection: { _id: 1 } }).toArray();
+
+	client.close();
+
+	// Paths - All key value pairs that might lead to your dynamic page
+	// One object per version of the dynamic key
 	return {
 		fallback: false, // tells if your paths key contains all of your possible dynamic keys or only some of them
-		paths: [
-			{ params: {
-				// All key value pairs that might lead to your dynamic page
-				meetup_id: 'm1'
-				} 
-			} // One object per version of the dynamic key
-		]
+		paths: meetups.map(meetup => {
+			return { params: { meetup_id: meetup._id.toString() }}
+		}
+		)
 	}
 }
 
 export async function getStaticProps(context) {
 	// Fetch data for a single meetup
+	const params = context.params;
+	const client: MongoClient = await MongoClient.connect('mongodb+srv://hmrbcnt:jonasbayot@fullstackopenmongodb.lqee8.mongodb.net/meetups?retryWrites=true&w=majority');
+	const db: Db = client.db();
 
-	const { meetup_id } = context.params;
+	const meetupsCollection: Collection = db.collection('meetups');
+
+	const meetup = (await meetupsCollection.findOne({ _id: new ObjectId(params.meetup_id) })) as QueryMeetupInterface;
+
+	client.close();
 
 	return {
 		props: {
-			meetupData: {
-				image: "https://www.japan-guide.com/g21/2314_02.jpg",
-				title: 'First Meetup',
-				address: 'address',
-				description: 'description',
-				id: '12345'
-			}
+				image: meetup.image,
+				id: meetup._id.toString(),
+				address: meetup.address,
+				title: meetup.title,
+				description: meetup.description
 		}
 	}
 }
